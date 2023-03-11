@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.mumu.smileweather.R
 import com.mumu.smileweather.logic.model.Place
+import com.mumu.smileweather.ui.weather.WeatherActivity
 
 class PlaceAdapter(val fragment: Fragment, val places: List<Place>) :
     RecyclerView.Adapter<PlaceAdapter.ViewHolder>() {
@@ -15,7 +16,18 @@ class PlaceAdapter(val fragment: Fragment, val places: List<Place>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_place, parent, false)
-        return ViewHolder(view)
+        val viewHolder = ViewHolder(view)
+        view.setOnClickListener {
+            val adapterPosition = viewHolder.adapterPosition
+            val place = places[adapterPosition]
+            WeatherActivity.startWeatherActivity(
+                parent.context,
+                place.name,
+                place.location.lng,
+                place.location.lat
+            )
+        }
+        return viewHolder
     }
 
     override fun getItemCount() = places.size
@@ -25,7 +37,6 @@ class PlaceAdapter(val fragment: Fragment, val places: List<Place>) :
         holder.placeName.text = place.name
         holder.placeAddress.text = place.address
     }
-
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val placeName: TextView = view.findViewById(R.id.placeName)

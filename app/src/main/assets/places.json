@@ -1,0 +1,56 @@
+{
+  "status": "ok",
+  "query": "北京",
+  "places": [
+    {
+      "id": "B000A83AJN",
+      "name": "北京南站",
+      "formatted_address": "中国 北京市 丰台区 永外大街车站路12号",
+      "location": {
+        "lat": 39.865246,
+        "lng": 116.378517
+      },
+      "place_id": "a-B000A83AJN"
+    },
+    {
+      "id": "B000A83M61",
+      "name": "北京西站",
+      "formatted_address": "中国 北京市 丰台区 莲花池东路118号",
+      "location": {
+        "lat": 39.89491,
+        "lng": 116.322056
+      },
+      "place_id": "a-B000A83M61"
+    },
+    {
+      "id": "B000A83C36",
+      "name": "北京站",
+      "formatted_address": "中国 北京市 东城区 毛家湾胡同甲13号",
+      "location": {
+        "lat": 39.902842,
+        "lng": 116.427341
+      },
+      "place_id": "a-B000A83C36"
+    },
+    {
+      "id": "B000A350CB",
+      "name": "北京东站",
+      "formatted_address": "中国 北京市 朝阳区 百子湾路7号",
+      "location": {
+        "lat": 39.90242,
+        "lng": 116.485079
+      },
+      "place_id": "a-B000A350CB"
+    },
+    {
+      "id": "BV10006454",
+      "name": "北京南站(地铁站)",
+      "formatted_address": "中国 北京市 丰台区 14号线;4号线/大兴线",
+      "location": {
+        "lat": 39.865012,
+        "lng": 116.379008
+      },
+      "place_id": "a-BV10006454"
+    }
+  ]
+}
