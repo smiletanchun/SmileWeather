@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.lifecycle.ViewModelProvider
 import com.mumu.smileweather.R
 import com.mumu.smileweather.databinding.ActivityWeatherBinding
@@ -22,7 +25,7 @@ class WeatherActivity : AppCompatActivity() {
 
     lateinit var weatherBinding: ActivityWeatherBinding
 
-    private val weatherViewModel by lazy {
+    val weatherViewModel by lazy {
         ViewModelProvider(this).get(WeatherViewModel::class.java)
     }
 
@@ -65,8 +68,6 @@ class WeatherActivity : AppCompatActivity() {
             weatherViewModel.placeName = intent.getStringExtra(placeName) ?: ""
         }
 
-        weatherViewModel.queryWeather(weatherViewModel.lng, weatherViewModel.lat)
-
         weatherViewModel.weather.observe(this) { result ->
             val weather = result.getOrNull()
             if (weather != null) {
@@ -75,7 +76,44 @@ class WeatherActivity : AppCompatActivity() {
                 Toast.makeText(this, "无法成功获取天气信息", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
+            weatherBinding.swipeRefresh.isRefreshing = false
         }
+        queryWeather()
+        weatherBinding.swipeRefresh.setColorSchemeColors(getColor(R.color.purple_200))
+        weatherBinding.swipeRefresh.setOnRefreshListener {
+            queryWeather()
+        }
+
+        weatherBinding.llNow.navBtn.setOnClickListener {
+            weatherBinding.drawer.openDrawer(GravityCompat.START)
+        }
+
+        weatherBinding.drawer.addDrawerListener(object : DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                val inputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(
+                    drawerView.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+            }
+
+        })
+
+    }
+
+    fun queryWeather() {
+        weatherViewModel.queryWeather(weatherViewModel.lng, weatherViewModel.lat)
+        weatherBinding.swipeRefresh.isRefreshing = true
     }
 
     private fun showWeatherInfo(weather: Weather) {

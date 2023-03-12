@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mumu.smileweather.MainActivity
 import com.mumu.smileweather.databinding.FragmentPlaceBinding
+import com.mumu.smileweather.ui.weather.WeatherActivity
 
 class PlaceFragment : Fragment() {
 
-    private val viewModel by lazy {
+    val viewModel by lazy {
         ViewModelProvider(this).get(PlaceViewModel::class.java)
     }
 
@@ -31,6 +33,22 @@ class PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (activity is MainActivity && viewModel.isSaved()) {
+            val savePlace = viewModel.getSavePlace()
+            val location = savePlace.location
+            context?.let {
+                WeatherActivity.startWeatherActivity(
+                    it,
+                    savePlace.name,
+                    location.lng,
+                    location.lat
+                )
+
+                activity?.finish()
+                return
+            }
+        }
+
         val linearLayoutManager = LinearLayoutManager(context)
         placeAdapter = PlaceAdapter(this, viewModel.placeList)
         fragmentPlaceBinding.recyclerView.layoutManager = linearLayoutManager

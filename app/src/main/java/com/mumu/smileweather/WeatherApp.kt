@@ -6,8 +6,12 @@ import android.content.Context
 class WeatherApp : Application() {
 
     companion object {
-       lateinit var context: Context
-
        const val token:String = "Llo8qRL7FExJIHau"
+        lateinit var context: Context
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        context = applicationContext
     }
 }

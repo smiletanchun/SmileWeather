@@ -1,6 +1,7 @@
 package com.mumu.smileweather.logic
 
 import androidx.lifecycle.liveData
+import com.mumu.smileweather.logic.dao.PlaceDao
 import com.mumu.smileweather.logic.model.Place
 import com.mumu.smileweather.logic.model.Weather
 import com.mumu.smileweather.logic.network.SunnyWeatherNetwork
@@ -11,6 +12,12 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 object Repository {
+
+    fun savePlace(place: Place) = PlaceDao.savePlace(place)
+
+    fun isContainPlace() = PlaceDao.isContainPlace()
+
+    fun getSavePlace() = PlaceDao.getSavePlace()
 
     fun searchPlaces(query: String) = fire(Dispatchers.IO) {
         val searchPlaces = SunnyWeatherNetwork.searchPlaces(query)
@@ -47,8 +54,6 @@ object Repository {
             }
         }
     }
-
-
 
     private fun <T> fire(
         context: CoroutineContext = EmptyCoroutineContext,
